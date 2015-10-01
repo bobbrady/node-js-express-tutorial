@@ -18,6 +18,24 @@ var findById = function(id) {
   return product;
 };
 
+ /**
+ * Find a Product's index in the storage array by its id
+ * Param: id the of the Product to find
+ * Returns: the index of the Product in the storage array
+ */
+var findIndexById = function(id) {
+  var index = null;
+  products.forEach(function(item, key) {
+    if (item.id === id) {
+      index = key;
+    }
+  });
+  if (null === index) {
+    throw new Error('Product not found');
+  }
+  return index;
+};
+
 /**
  * Get all Products
  * Returns: an array of Products
@@ -36,10 +54,9 @@ var save = function(product) {
     products.push(product);
     nextId++;
   } else {
-    var index = this.findIndex(task.taskId);
-    this.tasks[index] = task;
+    var index = findIndexById(Id);
+    products[index] = product;
   }
-
 };
 
 /**
@@ -47,18 +64,9 @@ var save = function(product) {
  * Param: id the of the Product to delete
  */
 var remove = function(id) {
-  var index = null;
-  products.forEach(function(item, key) {
-    if (item.id === id) {
-      index = key;
-    }
-  });
-  if (null === index) {
-    throw new Error('Product not found');
-  }
+  var index = findIndexById(id);
   products.splice(index, 1);
 };
-
 
 module.exports = {
   findById : findById,
