@@ -1,7 +1,5 @@
-var product  = {id: 1, name: 'foo'};
 var products = [];
-var nextId = 2;
-products.push(product);
+var nextId = 1;
 
 /**
  * Find a Product by its id
@@ -10,7 +8,7 @@ products.push(product);
  */
 var findById = function(id) {
   var product = products.filter(function(item) {
-    return item.id == id;
+    return item.id == parseInt(id, 10);
   })[0];
   if (null === product) {
     throw new Error('Product not found');
@@ -26,7 +24,7 @@ var findById = function(id) {
 var findIndexById = function(id) {
   var index = null;
   products.forEach(function(item, key) {
-    if (item.id === id) {
+    if (item.id === parseInt(id, 10)) {
       index = key;
     }
   });
@@ -49,14 +47,15 @@ var findAll = function() {
  * Param: the Product to save
  */
 var save = function(product) {
-  if (product.id === null || product.id === 0) {
+  if (product.id === undefined || product.id === null || product.id === 0) {
     product.id = nextId;
     products.push(product);
     nextId++;
   } else {
-    var index = findIndexById(Id);
+    var index = findIndexById(product.id);
     products[index] = product;
   }
+  return product;
 };
 
 /**
@@ -66,6 +65,7 @@ var save = function(product) {
 var remove = function(id) {
   var index = findIndexById(id);
   products.splice(index, 1);
+  return id;
 };
 
 module.exports = {
